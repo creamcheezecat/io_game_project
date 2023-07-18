@@ -18,6 +18,7 @@ Promise.all([
   downloadAssets(),
 ]).then(() => {
   playMenu.classList.remove('hidden');
+  usernameInput.focus();
   playButton.onclick = () => {
     // 게임 시작 !
     play(usernameInput.value);
