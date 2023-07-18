@@ -3,7 +3,7 @@ import { getMe, getOtherPlayers , getLazers } from './state';
 
 const Constants = require('../shared/constants');
 
-const { PLAYER_RADIUS, LAZER_SIZE, MAP_SIZE } = Constants;
+const { PLAYER_RADIUS,PLAYER_MAX_HP, LAZER_SIZE, MAP_SIZE } = Constants;
 
 // Setup the canvas and get the graphics context
 const canvas = document.getElementById('game-canvas');
@@ -45,8 +45,12 @@ function render() {
 
 function renderPlayer(me, player) {
     const { x, y, direction } = player;
+    const canvasX = canvas.width / 2 + x - me.x;
+    const canvasY = canvas.height / 2 + y - me.y;
+
+    // Draw player
     context.save();
-    context.translate(canvas.width / 2 + x - me.x, canvas.height / 2 + y - me.y);
+    context.translate(canvasX,canvasY);
     context.rotate(direction);
     context.drawImage(
       getAsset('player.svg'),
@@ -56,6 +60,22 @@ function renderPlayer(me, player) {
       PLAYER_RADIUS * 2,
     );
     context.restore();
+
+    // Draw health bar
+    context.fillStyle = 'white';
+    context.fillRect(
+        canvasX - PLAYER_RADIUS,
+        canvasY + PLAYER_RADIUS + 8,
+        PLAYER_RADIUS * 2,
+        2,
+    );
+    context.fillStyle = 'red';
+    context.fillRect(
+        canvasX - PLAYER_RADIUS + PLAYER_RADIUS * 2 * player.hp / PLAYER_MAX_HP,
+        canvasY + PLAYER_RADIUS + 8,
+        PLAYER_RADIUS * 2 * (1 - player.hp / PLAYER_MAX_HP),
+        2,
+    );
   }
 
 function renderLazer(me, Lazer) {
