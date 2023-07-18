@@ -4,9 +4,6 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 
 const Constants = require('../shared/constants');
 
-// Setuo an game
-const Game = require('./game');
-
 // Setup an Express server
 const app = express();
 
@@ -14,8 +11,8 @@ const app = express();
 app.use(express.static('public'));
 
 // Setup Webpack for development
-const config = require('../../webpack.config.js');
-const compiler = webpack(config);
+const webpackConfig = require('../../webpack.config.js');
+const compiler = webpack(webpackConfig);
 app.use(webpackDevMiddleware(compiler));
 
 // Check server listening port
@@ -24,17 +21,19 @@ const server = app.listen(port);
 console.log(`Server listening on port ${port}`);
 
 // Setup socket.io
-const io = require('socket.io')(server);
+const socketIo = require('socket.io');
+const io = socketIo(server);
 
 // Listen for socket.io connections
 io.on('connection', socket => {
   console.log('Player connected!', socket.id);
-  
+
   socket.on(Constants.MSG_TYPES.JOIN_GAME, joinGame);
   socket.on('disconnect', onDisconnect);
 });
 
 // Setup the Game
+const Game = require('./game');
 const game = new Game();
 
 
