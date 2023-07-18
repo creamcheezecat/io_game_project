@@ -22,6 +22,16 @@ class Game {
     delete this.players[socket.id];
   }
 
+  //소켓에 맞는 해당 플레이어 이동
+  handleInputMouse(socket, dir) {
+    this.players[socket.id].setDirection(dir);
+  }
+
+  handleInputKeyBoard(socket, key,updown) {
+    this.players[socket.id].setKeys(key,updown);
+  }
+
+
   update() {
      // Calculate time elapsed
      // 실질적으로 계속해서 실행되는 부분

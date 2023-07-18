@@ -1,5 +1,6 @@
 import { connect , play } from './networking';
 import  startRendering from './render';
+import { startCapturingInput } from './input';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/main.css';
@@ -15,7 +16,9 @@ Promise.all([
 ]).then(() => {
   playMenu.classList.remove('hidden');
   playButton.onclick = () => {
+    // 게임 시작 !
     play(usernameInput.value);
     playMenu.classList.add('hidden');
+    startCapturingInput();
   };
 }).catch(console.error);

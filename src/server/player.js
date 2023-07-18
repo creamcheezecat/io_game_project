@@ -1,5 +1,7 @@
 const Constants = require('../shared/constants');
 
+let keys = {};
+
 class Player {
   constructor(username, x, y) {
     this.username = username;
@@ -13,7 +15,31 @@ class Player {
     // 움직임 관련
     this.x += dt * Constants.PLAYER_SPEED * Math.sin(this.direction);
     this.y -= dt * Constants.PLAYER_SPEED * Math.cos(this.direction);
+    // 키보드 움직임 관련
+    // W
+    if(keys["87"]){
+        this.y -= 5;
+    }// S
+    if(keys["83"]){
+        this.y += 5;
+    }// A
+    if(keys["68"]){
+        this.x += 5;
+    }// D
+    if(keys["65"]){
+        this.x -= 5;
+    }
   }
+
+  // 마우스 이벤트 적용 
+  setDirection(dir) {
+    this.direction = dir;
+  }
+  // 키보드 이벤트 적용
+  setKeys(key,updown){
+    keys[key] = updown;
+  }
+
 
   distanceTo(object) {
     // 주변 플레이어 확인 용

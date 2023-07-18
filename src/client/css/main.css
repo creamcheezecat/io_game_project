@@ -1,6 +1,9 @@
 html, body {
     margin: 0;
     padding: 0;
+    /* overflow , overscroll-behavior => README */
+    overflow: hidden;
+    overscroll-behavior: none;
   }
   /* 처음부터 안나오는 메뉴들 */
   .hidden {

@@ -29,6 +29,10 @@ io.on('connection', socket => {
   console.log('Player connected!', socket.id);
 
   socket.on(Constants.MSG_TYPES.JOIN_GAME, joinGame);
+  // 마우스 이벤트
+  socket.on(Constants.MSG_TYPES.INPUTMOUSE, handleInputMouse);
+  // 키보드 이벤트
+  socket.on(Constants.MSG_TYPES.INPUTKEYBOARD, handleInputKeyBoard);
   socket.on('disconnect', onDisconnect);
 });
 
@@ -39,6 +43,14 @@ const game = new Game();
 
 function joinGame(username) {
   game.addPlayer(this, username);
+}
+
+function handleInputMouse(dir) {
+  game.handleInputMouse(this, dir);
+}
+
+function handleInputKeyBoard(key,updown) {
+  game.handleInputKeyBoard(this, key,updown);
 }
 
 function onDisconnect() {
