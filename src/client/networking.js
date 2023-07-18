@@ -15,13 +15,13 @@ const connectedPromise = new Promise(resolve => {
 });
 
 // 플레이어가 죽으면
-export const connect = onGameOver => {
-    return connectedPromise.then(() => {
+export const connect = onGameOver => (
+    connectedPromise.then(() => {
       // Register callbacks
       socket.on(Constants.MSG_TYPES.GAME_UPDATE, processGameUpdate);
       socket.on(Constants.MSG_TYPES.GAME_OVER, onGameOver);
-    });
-};
+    })
+);
 
 export function play(username) {
     socket.emit(Constants.MSG_TYPES.JOIN_GAME, username);

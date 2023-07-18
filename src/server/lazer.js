@@ -1,9 +1,11 @@
+const shortid = require('shortid');
 const ObjectClass = require('./object');
 const Constants = require('../shared/constants');
 
 class Lazer extends ObjectClass {
   constructor(parentID, x, y, dir) {
     super(x, y, dir, Constants.LAZER_SPEED);
+    this.id = shortid();
     // 충돌 확인하기 위해
     this.parentID = parentID;
   }
@@ -16,8 +18,9 @@ class Lazer extends ObjectClass {
 
   serializeForUpdate() {
     return {
-      x: this.x,
-      y: this.y,
+        id: this.id,
+        x: this.x,
+        y: this.y,
     };
   }
 }

@@ -56,9 +56,9 @@ class Game {
     });
     this.lazer = this.lazer.filter(lazer => !lazersToRemove.includes(lazer));
 
-
+    
+    // Update each player
     Object.keys(this.sockets).forEach(playerID => {
-        const socket = this.sockets[playerID];
         const player = this.players[playerID];
         // 계속 플레이어 업데이트 
         const newLazer = player.update(dt);

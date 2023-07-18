@@ -1,5 +1,5 @@
 import { getAsset } from './assets';
-import { getMe, getOtherPlayers , getLazers } from './state';
+import { getCurrentState } from './state';
 
 const Constants = require('../shared/constants');
 
@@ -13,34 +13,39 @@ canvas.height = window.innerHeight;
 const context = canvas.getContext('2d');
 
 function render() {
-    const me = getMe();
+    const { me, others, lazers } = getCurrentState();
+    if (!me) {
+        return;
+    }
 
-  // Draw background
-  const backgroundX = MAP_SIZE / 2 - me.x + canvas.width / 2;
-  const backgroundY = MAP_SIZE / 2 - me.y + canvas.height / 2;
-  // ??
-  const backgroundGradient = context.createRadialGradient(
-    backgroundX,
-    backgroundY,
-    MAP_SIZE/10,
-    backgroundX,
-    backgroundY,
-    MAP_SIZE / 2,
-  );
-  backgroundGradient.addColorStop(0, 'black');
-  backgroundGradient.addColorStop(1, 'gray');
-  context.fillStyle = backgroundGradient;
-  context.fillRect(0, 0, canvas.width, canvas.height);
+    // Draw background
+    const backgroundX = MAP_SIZE / 2 - me.x + canvas.width / 2;
+    const backgroundY = MAP_SIZE / 2 - me.y + canvas.height / 2;
+    // ??
+    const backgroundGradient = context.createRadialGradient(
+        backgroundX,
+        backgroundY,
+        MAP_SIZE/10,
+        backgroundX,
+        backgroundY,
+        MAP_SIZE / 2,
+    );
+    backgroundGradient.addColorStop(0, 'black');
+    backgroundGradient.addColorStop(1, 'gray');
+    context.fillStyle = backgroundGradient;
+    context.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Draw boundaries
-  context.strokeStyle = 'black';
-  context.lineWidth = 1;
-  context.strokeRect(backgroundX - MAP_SIZE / 2, backgroundY - MAP_SIZE / 2, MAP_SIZE, MAP_SIZE);
+    // Draw boundaries
+    context.strokeStyle = 'black';
+    context.lineWidth = 1;
+    context.strokeRect(backgroundX - MAP_SIZE / 2, backgroundY - MAP_SIZE / 2, MAP_SIZE, MAP_SIZE);
 
-  // Draw all players
-  renderPlayer(me, me);
-  getOtherPlayers().forEach(renderPlayer.bind(null, me));
-  getLazers().forEach(renderLazer.bind(null, me));
+    // Draw all players
+    renderPlayer(me, me);
+    others.forEach(renderPlayer.bind(null, me));
+
+    // Draw all lazers
+    lazers.forEach(renderLazer.bind(null, me));
 }
 
 function renderPlayer(me, player) {
@@ -53,11 +58,11 @@ function renderPlayer(me, player) {
     context.translate(canvasX,canvasY);
     context.rotate(direction);
     context.drawImage(
-      getAsset('player.svg'),
-      -PLAYER_RADIUS,
-      -PLAYER_RADIUS,
-      PLAYER_RADIUS * 2,
-      PLAYER_RADIUS * 2,
+        getAsset('player.svg'),
+        -PLAYER_RADIUS,
+        -PLAYER_RADIUS,
+        PLAYER_RADIUS * 2,
+        PLAYER_RADIUS * 2,
     );
     context.restore();
 
@@ -81,24 +86,24 @@ function renderPlayer(me, player) {
 function renderLazer(me, Lazer) {
     const { x, y } = Lazer;
     context.drawImage(
-      getAsset('lazer.svg'),
-      canvas.width / 2 + x - me.x - LAZER_SIZE,
-      canvas.height / 2 + y - me.y - LAZER_SIZE,
-      LAZER_SIZE * 2,
-      LAZER_SIZE * 2,
+        getAsset('lazer.svg'),
+        canvas.width / 2 + x - me.x - LAZER_SIZE,
+        canvas.height / 2 + y - me.y - LAZER_SIZE,
+        LAZER_SIZE * 2,
+        LAZER_SIZE * 2,
     );
 }
 let renderInterval = null;
 
 export function startRendering() {
-  // Render at 60 FPS
-  renderInterval = setInterval(render, 1000 / 60);
+    // Render at 60 FPS
+    renderInterval = setInterval(render, 1000 / 60);
 }
 
 export function stopRendering() {
-  clearInterval(renderInterval);
-  context.fillStyle = 'black';
-  context.fillRect(0, 0, canvas.width, canvas.height);
+    clearInterval(renderInterval);
+    context.fillStyle = 'black';
+    context.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 /* 

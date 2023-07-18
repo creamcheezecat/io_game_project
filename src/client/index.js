@@ -2,6 +2,7 @@ import { connect , play } from './networking';
 import { startRendering, stopRendering } from './render';
 import { startCapturingInput, stopCapturingInput } from './input';
 import { downloadAssets } from './assets';
+import { initState } from '/state'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/main.css';
@@ -20,6 +21,7 @@ Promise.all([
     // 게임 시작 !
     play(usernameInput.value);
     playMenu.classList.add('hidden');
+    initState();
     startCapturingInput();
     startRendering();
   };
