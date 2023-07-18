@@ -56,3 +56,14 @@ https://yamoo9.gitbook.io/webpack/webpack/webpack-loaders
 
 https://yamoo9.gitbook.io/webpack/webpack/webpack-plugins
 
+---
+
+### socket.io 
+
+server.js 에서 서버 통신할때 contants.js 파일을 이용해서 통신을 한다
+<br>
+socket.on(Constants.MSG_TYPES.JOIN_GAME, joinGame);
+<br>
+socket.on('disconnect', onDisconnect);
+<br>
+첫번째 매개변수를 가져와서 두번째 함수로 가서 실행한다.
