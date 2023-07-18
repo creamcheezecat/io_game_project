@@ -43,5 +43,16 @@ Node.js의 path 모듈로 './dist' 절대경로를 반환한다. (output.path는
 - filename: 결과물의 이름을 설정한다. 
 <br>시작점의 키(key)가 main이므로 main.js 파일이 생성된다.
 
-### bable-loader
+### bable-loader , CSS-loader 및 플러그인
+
+기본적으로 Webpack은 JavaScript 및 JSON 파일만 해석 가능합니다. 하지만 로더(loaders)를 사용하면 Webpack이 다른 포멧의 파일을 처리하고, 이를 앱에서 사용할 수 있는 모듈로 변환 할 수 있습니다.
+
+https://yamoo9.gitbook.io/webpack/webpack/webpack-loaders
+
+---
+
+로더(Loader)는 특정 타입의 모듈을 변환(transform)하는 데 사용되지만, 플러그인(Plugin)은 번들 최적화(minimize), 에셋(assets) 관리 및 환경(environment) 변수 주입(injection)과 같은 광범위한 작업을 수행하는데 사용됩니다.
+플러그인을 사용하려면 require() 함수를 사용해 설치된 플러그인이 불러온 후, plugins배열에 추가해야 합니다 . 대부분의 플러그인은 옵션을 통해 사용자 정의 할 수 있습니다. 목적에 따라 플러그인을 여러 번 사용할 수 있으므로 new 연산자를 사용해 플러그인 인스턴스를 만들어야 합니다 .
+
+https://yamoo9.gitbook.io/webpack/webpack/webpack-plugins
 
