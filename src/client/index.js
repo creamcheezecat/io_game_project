@@ -3,6 +3,7 @@ import { startRendering, stopRendering } from './render';
 import { startCapturingInput, stopCapturingInput } from './input';
 import { downloadAssets } from './assets';
 import { initState } from '/state'
+import { setLeaderboardHidden } from './leaderboard';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/main.css';
@@ -24,6 +25,7 @@ Promise.all([
     initState();
     startCapturingInput();
     startRendering();
+    setLeaderboardHidden(false);
   };
 }).catch(console.error);
 
@@ -32,4 +34,5 @@ function onGameOver() {
   stopCapturingInput();
   stopRendering();
   playMenu.classList.remove('hidden');
+  setLeaderboardHidden(true);
 }

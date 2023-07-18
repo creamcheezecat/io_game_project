@@ -13,6 +13,7 @@ class Player {
         this.y = y;
         this.direction = Math.random() * 2 * Math.PI; // 0 is north
         this.fireCooldown = 0;
+        this.score = 0;
     }
 
     // Returns a newly created bullet, or null.
@@ -35,6 +36,9 @@ class Player {
             this.x -= 5;
         }
 
+        // Update score
+        this.score += dt * Constants.SCORE_PER_SECOND;
+
         // Make sure the player stays in bounds
         this.x = Math.max(0, Math.min(Constants.MAP_SIZE, this.x));
         this.y = Math.max(0, Math.min(Constants.MAP_SIZE, this.y));
@@ -49,8 +53,14 @@ class Player {
         return null;
     }
 
+    // 맞았다면 데미지 입고
     takeLazerDamage() {
         this.hp -= Constants.LAZER_DAMAGE;
+    }
+
+    // 점수 얻었다
+    getScore(){
+        this.score += 1;
     }
 
     // 마우스 이벤트 적용 
