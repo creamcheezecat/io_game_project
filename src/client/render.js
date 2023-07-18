@@ -1,4 +1,4 @@
-import { downloadAssets, getAsset } from './assets';
+import { getAsset } from './assets';
 import { getMe, getOtherPlayers , getLazers } from './state';
 
 const Constants = require('../shared/constants');
@@ -76,7 +76,7 @@ function renderPlayer(me, player) {
         PLAYER_RADIUS * 2 * (1 - player.hp / PLAYER_MAX_HP),
         2,
     );
-  }
+}
 
 function renderLazer(me, Lazer) {
     const { x, y } = Lazer;
@@ -87,11 +87,24 @@ function renderLazer(me, Lazer) {
       LAZER_SIZE * 2,
       LAZER_SIZE * 2,
     );
-  }
+}
+let renderInterval = null;
+
+export function startRendering() {
+  // Render at 60 FPS
+  renderInterval = setInterval(render, 1000 / 60);
+}
+
+export function stopRendering() {
+  clearInterval(renderInterval);
+  context.fillStyle = 'black';
+  context.fillRect(0, 0, canvas.width, canvas.height);
+}
+
 /* 
 모듈에서 여러 개의 값들을 내보내고 싶다면 export 문을 사용하여 각각의 값을 명시적으로 내보낼 수 있다.
 export default는 한 번의 모듈에서 하나의 값만을 기본적으로 내보내고자 할 때 편리하게 사용
-*/
+
 export default function startRendering() {
     return downloadAssets().then(() => {
       // Render at 60 FPS
@@ -99,3 +112,4 @@ export default function startRendering() {
       setInterval(render, 1000 / 60);
     });
 }
+*/

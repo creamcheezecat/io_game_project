@@ -4,10 +4,11 @@ html, body {
     /* overflow , overscroll-behavior => README */
     overflow: hidden;
     overscroll-behavior: none;
+    background-color: black;
   }
   /* 처음부터 안나오는 메뉴들 */
   .hidden {
-    display: none;
+    display: none !important;
   }
   /* 게임 시작 메뉴 */
   #play-menu {
@@ -17,4 +18,7 @@ html, body {
     transform: translateY(-50%) translateX(-50%);
     padding: 10px;
     background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }

@@ -28,6 +28,6 @@ class Object {
         direction: this.direction,
       };
     }
-  }
+}
   
-  module.exports = Object;
+module.exports = Object;

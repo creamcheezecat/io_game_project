@@ -14,5 +14,6 @@ module.exports = Object.freeze({
         GAME_UPDATE: 'update',
         INPUTMOUSE: 'inputmouse',
         INPUTKEYBOARD: 'inputkeyboard',
-      },
-  });
+        GAME_OVER: 'dead',
+    },
+});
