@@ -6,7 +6,13 @@
     <title>.io Game</title>
 </head>
 <body>
+    <!-- 메인 플레이 화면 -->
     <canvas id="game-canvas"></canvas>
     <script async src="/game.bundle.js"></script>
+    <!-- 게임 시작 메뉴 -->
+    <div id="play-menu" class="hidden">
+        <input type="text" id="username-input" placeholder="Username" />
+        <button id="play-button">시작하기</button>
+    </div>
 </body>
 </html>

@@ -60,12 +60,18 @@ https://yamoo9.gitbook.io/webpack/webpack/webpack-plugins
 
 ### socket.io 
 
-server.js 에서 서버 통신할때 contants.js 파일을 이용해서 통신을 한다
 ```js
-socket.on(Constants.MSG_TYPES.JOIN_GAME, joinGame);
-socket.on('disconnect', onDisconnect);
+// 클라이언트 측에서 서버로 데이터를 보내는 예시
+socket.emit('이벤트 이름', 데이터);
+// 서버 측에서 클라이언트로부터 데이터를 수신하는 예시
+socket.on('이벤트 이름', (데이터) => {
+  // 데이터 처리 로직
+});
 ```
-첫번째 매개변수를 가져와서 두번째 함수로 가서 실행한다.
+- socket.emit은 클라이언트 측에서 서버로 데이터를 보내기 위해 사용됩니다. 클라이언트에서 socket.emit을 호출하면 서버로 지정된 이벤트와 데이터를 보낼 수 있습니다.
+
+- socket.on 함수는 클라이언트 소켓에서 이벤트를 수신하기 위해 사용됩니다. 클라이언트 측에서 서버로부터 데이터를 받을 때 사용됩니다.
+
 
 ### Promise
 
