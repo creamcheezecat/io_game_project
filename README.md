@@ -1,5 +1,8 @@
-    
-### package.json 에서 궁금한점
+
+
+
+
+### package.json
 
 "scripts": {"build": "webpack --mode development --watch",}
 <br>
@@ -39,3 +42,6 @@ Node.js의 path 모듈로 './dist' 절대경로를 반환한다. (output.path는
 <br>
 - filename: 결과물의 이름을 설정한다. 
 <br>시작점의 키(key)가 main이므로 main.js 파일이 생성된다.
+
+### bable-loader
+
