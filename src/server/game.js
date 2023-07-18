@@ -1,5 +1,6 @@
 const Player = require('./player');
 const Constants = require('../shared/constants');
+const applyCollisions = require('./collisions');
 
 class Game {
   constructor() {
@@ -7,6 +8,7 @@ class Game {
     this.players = {};
     this.lazers = {};
     this.lastUpdateTime = Date.now();
+    this.applyCollisions = false;
     setInterval(() => this.update, 1000 / 60);
   }
 
@@ -15,7 +17,7 @@ class Game {
     // Generate a position to start this player at.
     const x = Constants.MAP_SIZE / 2;
     const y = Constants.MAP_SIZE / 2;
-    this.players[socket.id] = new Player(username, x, y);
+    this.players[socket.id] = new Player(socket.id, username, x, y);
   }
 
   removePlayer(socket) {
@@ -63,8 +65,24 @@ class Game {
         if (newLazer) {
             this.lazers.push(newLazer);
         }
-        socket.emit(Constants.MSG_TYPES.GAME_UPDATE, this.createUpdate(player));
     });
+
+    // Apply collisions
+    const destroyedLazers = applyCollisions(Object.values(this.players), this.lazers);
+    this.lazers = this.lazers.filter(lazer => !destroyedLazers.includes(lazer));
+
+    // Send a game update to each player every other time 
+    // ???
+    if (this.shouldSendUpdate) {
+      Object.keys(this.sockets).forEach(playerID => {
+        const socket = this.sockets[playerID];
+        const player = this.players[playerID];
+        socket.emit(Constants.MSG_TYPES.GAME_UPDATE, this.createUpdate(player));
+      });
+      this.shouldSendUpdate = false;
+    } else {
+      this.shouldSendUpdate = true;
+    }
   }
 
   // ??

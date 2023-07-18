@@ -2,8 +2,10 @@ const ObjectClass = require('./object');
 const Constants = require('../shared/constants');
 
 class Lazer extends ObjectClass {
-  constructor(x, y, dir) {
+  constructor(parentID, x, y, dir) {
     super(x, y, dir, Constants.LAZER_SPEED);
+    // 충돌 확인하기 위해
+    this.parentID = parentID;
   }
 
   // Returns true if the lazer should be destroyed

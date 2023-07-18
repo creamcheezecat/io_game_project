@@ -6,7 +6,7 @@ module.exports = Object.freeze({
 
     LAZER_SIZE: 5,
     LAZER_SPEED: 1000,
-
+    LAZER_DAMAGE: 50,
     MAP_SIZE: 5000,
     // 통신하기 위한 프로토콜
     MSG_TYPES: {

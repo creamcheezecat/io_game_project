@@ -5,7 +5,8 @@ const Lazer = require('./lazer');
 let keys = {};
 
 class Player {
-  constructor(username, x, y) {
+  constructor(id,username, x, y) {
+    this.id = id;
     this.username = username;
     this.hp = Constants.PLAYER_MAX_HP;
     this.x = x;
@@ -15,7 +16,7 @@ class Player {
   }
 
   update(dt) {
-    // 움직임 관련
+    // 자동 움직임 관련 
     this.x += dt * Constants.PLAYER_SPEED * Math.sin(this.direction);
     this.y -= dt * Constants.PLAYER_SPEED * Math.cos(this.direction);
     // 키보드 움직임 관련
@@ -41,8 +42,12 @@ class Player {
     this.fireCooldown -= dt;
     if (this.fireCooldown <= 0) {
       this.fireCooldown += Constants.PLAYER_FIRE_COOLDOWN;
-      return new Lazer(this.x, this.y, this.direction);
+      return new Lazer(this.id,this.x, this.y, this.direction);
     }
+  }
+
+  takeLazerDamage() {
+    this.hp -= Constants.LAZER_DAMAGE;
   }
 
   // 마우스 이벤트 적용 
@@ -67,6 +72,7 @@ class Player {
     return {
       x: this.x,
       y: this.y,
+      hp: this.hp,
       direction: this.direction,
     };
   }
