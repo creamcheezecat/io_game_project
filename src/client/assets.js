@@ -1,5 +1,6 @@
 const ASSET_NAMES = [
     'player.svg',
+    'lazer.svg',
   ];
   
   const assets = {};

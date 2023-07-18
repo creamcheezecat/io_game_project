@@ -1,4 +1,6 @@
 const Constants = require('../shared/constants');
+const Lazer = require('./lazer');
+
 
 let keys = {};
 
@@ -9,6 +11,7 @@ class Player {
     this.x = x;
     this.y = y;
     this.direction = Math.random() * 2 * Math.PI; // 0 is north
+    this.fireCooldown = 0;
   }
 
   update(dt) {
@@ -33,6 +36,13 @@ class Player {
     // Make sure the player stays in bounds
     this.x = Math.max(0, Math.min(Constants.MAP_SIZE, this.x));
     this.y = Math.max(0, Math.min(Constants.MAP_SIZE, this.y));
+
+    // Fire a Lazer, if needed
+    this.fireCooldown -= dt;
+    if (this.fireCooldown <= 0) {
+      this.fireCooldown += Constants.PLAYER_FIRE_COOLDOWN;
+      return new Lazer(this.x, this.y, this.direction);
+    }
   }
 
   // 마우스 이벤트 적용 

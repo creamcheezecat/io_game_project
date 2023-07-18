@@ -1,9 +1,9 @@
 import { downloadAssets, getAsset } from './assets';
-import { getMe, getOtherPlayers } from './state';
+import { getMe, getOtherPlayers , getLazers } from './state';
 
 const Constants = require('../shared/constants');
 
-const { PLAYER_RADIUS, MAP_SIZE } = Constants;
+const { PLAYER_RADIUS, LAZER_SIZE, MAP_SIZE } = Constants;
 
 // Setup the canvas and get the graphics context
 const canvas = document.getElementById('game-canvas');
@@ -36,25 +36,37 @@ function render() {
   context.strokeStyle = 'black';
   context.lineWidth = 1;
   context.strokeRect(backgroundX - MAP_SIZE / 2, backgroundY - MAP_SIZE / 2, MAP_SIZE, MAP_SIZE);
-  
+
   // Draw all players
   renderPlayer(me, me);
   getOtherPlayers().forEach(renderPlayer.bind(null, me));
+  getLazers().forEach(renderLazer.bind(null, me));
 }
 
 function renderPlayer(me, player) {
     const { x, y, direction } = player;
     context.save();
-    context.translate(canvas.width / 2, canvas.height / 2);
+    context.translate(canvas.width / 2 + x - me.x, canvas.height / 2 + y - me.y);
     context.rotate(direction);
     context.drawImage(
       getAsset('player.svg'),
-      x - PLAYER_RADIUS - me.x,
-      y - PLAYER_RADIUS - me.y,
+      -PLAYER_RADIUS,
+      -PLAYER_RADIUS,
       PLAYER_RADIUS * 2,
       PLAYER_RADIUS * 2,
     );
     context.restore();
+  }
+
+function renderLazer(me, Lazer) {
+    const { x, y } = Lazer;
+    context.drawImage(
+      getAsset('lazer.svg'),
+      canvas.width / 2 + x - me.x - LAZER_SIZE,
+      canvas.height / 2 + y - me.y - LAZER_SIZE,
+      LAZER_SIZE * 2,
+      LAZER_SIZE * 2,
+    );
   }
 /* 
 모듈에서 여러 개의 값들을 내보내고 싶다면 export 문을 사용하여 각각의 값을 명시적으로 내보낼 수 있다.

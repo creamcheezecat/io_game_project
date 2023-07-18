@@ -5,6 +5,7 @@ class Game {
   constructor() {
     this.sockets = {};
     this.players = {};
+    this.lazers = {};
     this.lastUpdateTime = Date.now();
     setInterval(() => this.update, 1000 / 60);
   }
@@ -24,29 +25,46 @@ class Game {
 
   //소켓에 맞는 해당 플레이어 이동
   handleInputMouse(socket, dir) {
-    this.players[socket.id].setDirection(dir);
+    if (this.players[socket.id]) {
+        this.players[socket.id].setDirection(dir);
+    }
   }
 
   handleInputKeyBoard(socket, key,updown) {
-    this.players[socket.id].setKeys(key,updown);
+    if (this.players[socket.id]) {
+        this.players[socket.id].setKeys(key,updown);
+    }
   }
 
 
   update() {
-     // Calculate time elapsed
-     // 실질적으로 계속해서 실행되는 부분
-     const now = Date.now();
-     const dt = (now - this.lastUpdateTime) / 1000;
-     this.lastUpdateTime = now;
- 
+    // Calculate time elapsed
+    // 실질적으로 계속해서 실행되는 부분
+    const now = Date.now();
+    const dt = (now - this.lastUpdateTime) / 1000;
+    this.lastUpdateTime = now;
+
+    // Update each lazer
+    const lazersToRemove = [];
+    this.lazers.forEach(lazer => {
+      if (lazer.update(dt)) {
+        // Destroy this lazer
+        lazersToRemove.push(lazer);
+      }
+    });
+    this.lazer = this.lazer.filter(lazer => !lazersToRemove.includes(lazer));
+
 
     Object.keys(this.sockets).forEach(playerID => {
         const socket = this.sockets[playerID];
         const player = this.players[playerID];
         // 계속 플레이어 업데이트 
-        player.update(dt);
+        const newLazer = player.update(dt);
+        if (newLazer) {
+            this.lazers.push(newLazer);
+        }
         socket.emit(Constants.MSG_TYPES.GAME_UPDATE, this.createUpdate(player));
-      });
+    });
   }
 
   // ??
@@ -54,9 +72,15 @@ class Game {
     const nearbyPlayers = Object.values(this.players).filter(p => (
       p !== player && p.distanceTo(player) <= Constants.MAP_SIZE / 2
     ));
+
+    const nearbyLazers = this.lazers.filter(l => (
+        l.distanceTo(player) <= Constants.MAP_SIZE / 2
+    ));
+
     return {
       me: player.serializeForUpdate(),
       others: nearbyPlayers.map(p => p.serializeForUpdate()),
+      lazers: nearbyLazers.map(l => l.serializeForUpdate()),
     };
   }
 
