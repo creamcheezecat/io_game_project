@@ -3,6 +3,8 @@ const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 
 const Constants = require('../shared/constants');
+
+// Setuo an game
 const Game = require('./game');
 
 // Setup an Express server
@@ -34,6 +36,7 @@ io.on('connection', socket => {
 
 // Setup the Game
 const game = new Game();
+
 
 function joinGame(username) {
   game.addPlayer(this, username);

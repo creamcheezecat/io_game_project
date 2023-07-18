@@ -4,7 +4,7 @@ class Game {
   constructor() {
     this.sockets = {};
     this.players = {};
-    setInterval(this.update, 1000 / 60);
+    setInterval(() => this.update, 1000 / 60);
   }
 
   addPlayer(socket, username) {
