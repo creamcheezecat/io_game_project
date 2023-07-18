@@ -29,6 +29,10 @@ class Player {
     if(keys["65"]){
         this.x -= 5;
     }
+
+    // Make sure the player stays in bounds
+    this.x = Math.max(0, Math.min(Constants.MAP_SIZE, this.x));
+    this.y = Math.max(0, Math.min(Constants.MAP_SIZE, this.y));
   }
 
   // 마우스 이벤트 적용 
