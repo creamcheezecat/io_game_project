@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">                                              <!-- 크기를 자동으로 축소하지 않도록 지정-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>.io Game</title>
     <link type="text/css" rel="stylesheet" href="/game.bundle.css">
 </head>
@@ -28,6 +28,13 @@
             <tr><td></td><td></td></tr>
             <tr><td></td><td></td></tr>
           </table>
+    </div>
+    <div id="disconnect-modal" class="hidden">
+        <div>
+          <h2>서버와 연결이 끊겼습니다.</h2>
+          <hr />
+          <button id="reconnect-button">재연결</button>
+        </div>
     </div>
 </body>
 </html>

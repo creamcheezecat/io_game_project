@@ -39,7 +39,7 @@ html, body {
   outline: none;
 }
 
-#play-menu button {
+/* #play-menu button {
   font-size: 18px;
   outline: none;
   border: none;
@@ -52,7 +52,7 @@ html, body {
 
 #play-menu button:hover {
   background-color: rgb(230, 230, 230);
-}
+} */
 
 /* 점수판 */
 #leaderboard {
@@ -72,4 +72,45 @@ html, body {
 #leaderboard td {
   text-align: center;
   padding: 2px 5px;
+}
+
+/* 버튼 통합 */
+button {
+  font-size: 18px;
+  outline: none;
+  border: none;
+  color: black;
+  background-color: transparent;
+  padding: 5px 20px;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: rgb(230, 230, 230);
+}
+
+button:focus {
+  outline: none;
+}
+
+/* 재연결 */
+#disconnect-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+#disconnect-modal > div {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  padding: 15px 20px;
+  background-color: white;
+  border-radius: 5px;
+  text-align: center;
 }

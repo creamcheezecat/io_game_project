@@ -11,9 +11,11 @@ app.use(express.static('public'));
 // Setup Webpack for development
 const webpackConfig = require('../../webpack.dev.js');
 if(process.env.NODE_ENV === 'development'){
+  // Setup Webpack for development
   const compiler = webpack(webpackConfig);
   app.use(webpackDevMiddleware(compiler));
 }else{
+  // Static serve the dist/ folder in production
   app.use(express.static('dist'));
 }
 
