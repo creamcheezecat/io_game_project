@@ -9,9 +9,15 @@ const app = express();
 app.use(express.static('public'));
 
 // Setup Webpack for development
-const webpackConfig = require('../../webpack.config.js');
-const compiler = webpack(webpackConfig);
-app.use(webpackDevMiddleware(compiler));
+const webpackConfig = require('../../webpack.dev.js');
+if(process.env.NODE_ENV === 'development'){
+  const compiler = webpack(webpackConfig);
+  app.use(webpackDevMiddleware(compiler));
+}else{
+  app.use(express.static('dist'));
+}
+
+
 
 // Check server listening port
 const port = process.env.PORT || 3000;
