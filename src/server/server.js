@@ -19,8 +19,6 @@ if(process.env.NODE_ENV === 'development'){
   app.use(express.static('dist'));
 }
 
-
-
 // Check server listening port
 const port = process.env.PORT || 3000;
 const server = app.listen(port);

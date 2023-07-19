@@ -8,7 +8,7 @@ class Game {
         this.players = {};
         this.lazers = [];
         this.lastUpdateTime = Date.now();
-        this.applyCollisions = false;
+        this.shouldSendUpdate = false;
         setInterval(this.update.bind(this), 1000 / 60);
     }
 

@@ -22,26 +22,29 @@ function setCanvasDimensions() {
 // ???
 window.addEventListener('resize', debounce(40, setCanvasDimensions));
 
+let animationFrameRequestId;
+
 function render() {
     const { me, others, lazers } = getCurrentState();
-    if (!me) {
-        return;
+    if (me) {
+        // Draw background
+        renderBackground(me.x, me.y);
+    
+        // Draw boundaries
+        context.strokeStyle = 'black';
+        context.lineWidth = 1;
+        context.strokeRect(canvas.width / 2 - me.x, canvas.height / 2 - me.y, MAP_SIZE, MAP_SIZE);
+    
+        // Draw all bullets
+        //lazers.forEach(renderLazer.bind(null, me));
+    
+        // Draw all players
+        renderPlayer(me, me);
+        others.forEach(renderPlayer.bind(null, me));
     }
-
-    // Draw background
-    renderBackground(me.x, me.y);
-
-    // Draw boundaries
-    context.strokeStyle = 'black';
-    context.lineWidth = 1;
-    context.strokeRect(canvas.width / 2 - me.x, canvas.height / 2 - me.y, MAP_SIZE, MAP_SIZE);
-
-    // Draw all bullets
-    lazers.forEach(renderBullet.bind(null, me));
-
-    // Draw all players
-    renderPlayer(me, me);
-    others.forEach(renderPlayer.bind(null, me));
+    
+      // Rerun this render function on the next frame
+      animationFrameRequestId = requestAnimationFrame(render);
 }
 
 function renderBackground(x, y) {
@@ -51,7 +54,7 @@ function renderBackground(x, y) {
     const backgroundGradient = context.createRadialGradient(
         backgroundX,
         backgroundY,
-        MAP_SIZE/10,
+        MAP_SIZE / 10,
         backgroundX,
         backgroundY,
         MAP_SIZE / 2,
@@ -113,19 +116,22 @@ function renderMainMenu() {
     const x = MAP_SIZE / 2 + 800 * Math.cos(t);
     const y = MAP_SIZE / 2 + 800 * Math.sin(t);
     renderBackground(x, y);
+
+    // Rerun this render function on the next frame
+     animationFrameRequestId = requestAnimationFrame(renderMainMenu);
 }
 
-let renderInterval = setInterval(renderMainMenu, 1000 / 60);
+animationFrameRequestId = requestAnimationFrame(renderMainMenu);
 
 export function startRendering() {
     // Render at 60 FPS
-    clearInterval(renderInterval);
-    renderInterval = setInterval(render, 1000 / 60);
+    cancelAnimationFrame(animationFrameRequestId);
+    animationFrameRequestId = requestAnimationFrame(render);
 }
 
 export function stopRendering() {
-    clearInterval(renderInterval);
-    renderInterval = setInterval(renderMainMenu, 1000 / 60);
+    cancelAnimationFrame(animationFrameRequestId);
+    animationFrameRequestId = requestAnimationFrame(renderMainMenu);
 }
 
 /* 

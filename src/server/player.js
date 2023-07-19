@@ -16,20 +16,20 @@ class Player extends ObjectClass {
     // Returns a newly created bullet, or null.
     update(dt) {
         // 자동 움직임 관련 
-        super.update(dt);
+        //super.update(dt);
         // 키보드 움직임 관련
         // W
         if(keys["87"]){
-            this.y -= 5;
+            this.y -= Constants.PLAYER_SPEED /15;
         }// S
         if(keys["83"]){
-            this.y += 5;
+            this.y += Constants.PLAYER_SPEED /15;
         }// A
         if(keys["68"]){
-            this.x += 5;
+            this.x += Constants.PLAYER_SPEED /15;
         }// D
         if(keys["65"]){
-            this.x -= 5;
+            this.x -= Constants.PLAYER_SPEED /15;
         }
 
         // Make sure the player stays in bounds

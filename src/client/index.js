@@ -30,6 +30,7 @@ Promise.all([
     startCapturingInput();
     startRendering();
     setLeaderboardHidden(false);
+    document.getElementById('input-bar').focus();
   };
 }).catch(console.error);
 
