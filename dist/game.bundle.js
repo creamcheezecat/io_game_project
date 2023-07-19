@@ -92,7 +92,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \*********************************/
 /***/ ((module) => {
 
-eval("module.exports = Object.freeze({\n  PLAYER_RADIUS: 40,\n  PLAYER_MAX_HP: 100,\n  PLAYER_SPEED: 250,\n  PLAYER_FIRE_COOLDOWN: 0.25,\n  LAZER_SIZE: 5,\n  LAZER_SPEED: 1000,\n  LAZER_DAMAGE: 100,\n  MAP_SIZE: 5000,\n  // 통신하기 위한 프로토콜\n  MSG_TYPES: {\n    JOIN_GAME: 'join_game',\n    GAME_UPDATE: 'update',\n    INPUTMOUSE: 'inputmouse',\n    INPUTKEYBOARD: 'inputkeyboard',\n    GAME_OVER: 'dead'\n  }\n});\n\n//# sourceURL=webpack://io_game_project/./src/shared/constants.js?");
+eval("module.exports = Object.freeze({\n  PLAYER_RADIUS: 20,\n  PLAYER_MAX_HP: 100,\n  PLAYER_SPEED: 350,\n  PLAYER_FIRE_COOLDOWN: 0.25,\n  LAZER_SIZE: 3,\n  LAZER_SPEED: 1000,\n  LAZER_DAMAGE: 100,\n  MAP_SIZE: 5000,\n  // 통신하기 위한 프로토콜\n  MSG_TYPES: {\n    JOIN_GAME: 'join_game',\n    GAME_UPDATE: 'update',\n    INPUTMOUSE: 'inputmouse',\n    INPUTKEYBOARD: 'inputkeyboard',\n    GAME_OVER: 'dead'\n  }\n});\n\n//# sourceURL=webpack://io_game_project/./src/shared/constants.js?");
 
 /***/ }),
 
