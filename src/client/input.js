@@ -1,7 +1,7 @@
 import { updateInputMouse } from './networking';
 import { updateInputKeyBoard } from './networking';
 
-function onMouseMove(e) {
+function onMouseInput(e) {
   const dir = Math.atan2(e.clientX - window.innerWidth / 2, window.innerHeight / 2 - e.clientY);
   updateInputMouse(dir);
 }
@@ -15,14 +15,16 @@ function onkeyUp(e){
 }
 
 export function startCapturingInput() {
-    window.addEventListener('mousemove ', onMouseMove);
+    window.addEventListener('mousemove ', onMouseInput);
+    window.addEventListener('click', onMouseInput);
     // keyboard event handlers
     window.addEventListener('keydown', onkeyDown);
     window.addEventListener('keyup', onkeyUp);
 }
 
 export function stopCapturingInput() {
-    window.removeEventListener('mousemove', onMouseMove);
+    window.removeEventListener('mousemove', onMouseInput);
+    window.removeEventListener('click', onMouseInput);
     // keyboard event handlers
     window.removeEventListener('keydown', onkeyDown);
     window.removeEventListener('keyup', onkeyUp);

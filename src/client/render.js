@@ -8,15 +8,19 @@ const { PLAYER_RADIUS,PLAYER_MAX_HP, LAZER_SIZE, MAP_SIZE } = Constants;
 
 // Setup the canvas and get the graphics context
 const canvas = document.getElementById('game-canvas');
-// 현재 창 크기에 맞춤
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
 const context = canvas.getContext('2d');
 
-window.addEventListener('resize', debounce(40, () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}));
+setCanvasDimensions();
+
+function setCanvasDimensions() {
+    // On small screens (e.g. phones), we want to "zoom out" so players can still see at least
+    // 800 in-game units of width.
+    const scaleRatio = Math.max(1, 800 / window.innerWidth);
+    canvas.width = scaleRatio * window.innerWidth;
+    canvas.height = scaleRatio * window.innerHeight;
+}
+// ???
+window.addEventListener('resize', debounce(40, setCanvasDimensions));
 
 function render() {
     const { me, others, lazers } = getCurrentState();
