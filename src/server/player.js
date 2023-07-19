@@ -6,8 +6,7 @@ let keys = {};
 
 class Player extends ObjectClass {
     constructor(id,username, x, y) {
-        super(x,y,Math.random() * 2 * Math.PI, Constants.PLAYER_SPEED);
-        this.id = id;
+        super(id,x,y,Math.random() * 2 * Math.PI, Constants.PLAYER_SPEED);
         this.username = username;
         this.hp = Constants.PLAYER_MAX_HP;
         this.fireCooldown = 0;
@@ -78,7 +77,7 @@ class Player extends ObjectClass {
     serializeForUpdate() {
         return {
             ...(super.serializeForUpdate()),
-            id: this.id,
+            direction: this.direction,
             hp: this.hp,
         };
     }
