@@ -1,5 +1,8 @@
 
-
+```bash
+$ npm install
+$ npm start
+```
 
 
 ### package.json

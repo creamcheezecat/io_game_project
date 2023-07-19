@@ -6,8 +6,6 @@ const Constants = require('../shared/constants');
 
 // Setup an Express server
 const app = express();
-
-//app.use(express.static('dist'));
 app.use(express.static('public'));
 
 // Setup Webpack for development

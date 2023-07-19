@@ -6,10 +6,10 @@ class Game {
     constructor() {
         this.sockets = {};
         this.players = {};
-        this.lazers = {};
+        this.lazers = [];
         this.lastUpdateTime = Date.now();
         this.applyCollisions = false;
-        setInterval(() => this.update, 1000 / 60);
+        setInterval(this.update.bind(this), 1000 / 60);
     }
 
     addPlayer(socket, username) {
@@ -49,12 +49,12 @@ class Game {
         // Update each lazer
         const lazersToRemove = [];
         this.lazers.forEach(lazer => {
-        if (lazer.update(dt)) {
-            // Destroy this lazer
-            lazersToRemove.push(lazer);
-        }
+            if (lazer.update(dt)) {
+                // Destroy this lazer
+                lazersToRemove.push(lazer);
+            }
         });
-        this.lazer = this.lazer.filter(lazer => !lazersToRemove.includes(lazer));
+        this.lazer = this.lazers.filter(lazer => !lazersToRemove.includes(lazer));
 
     
         // Update each player
@@ -69,7 +69,7 @@ class Game {
 
         // Apply collisions, give players score for hitting
         const destroyedLazers = applyCollisions(Object.values(this.players), this.lazers);
-        destroyedBullets.forEach(b => {
+        destroyedLazers.forEach(b => {
             if (this.players[b.parentID]) {
                 his.players[b.parentID].getScore();
             }

@@ -2,7 +2,7 @@ import { connect , play } from './networking';
 import { startRendering, stopRendering } from './render';
 import { startCapturingInput, stopCapturingInput } from './input';
 import { downloadAssets } from './assets';
-import { initState } from '/state'
+import { initState } from './state'
 import { setLeaderboardHidden } from './leaderboard';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -31,7 +31,6 @@ Promise.all([
 }).catch(console.error);
 
 function onGameOver() {
-  alert('You died!');
   stopCapturingInput();
   stopRendering();
   playMenu.classList.remove('hidden');

@@ -1,6 +1,6 @@
 const Constants = require('../shared/constants');
 const Lazer = require('./lazer');
-
+const ObjectClass = require('./object');
 
 let keys = {};
 
