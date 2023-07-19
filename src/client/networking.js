@@ -4,7 +4,8 @@ import { processGameUpdate } from './state';
 
 const Constants = require('../shared/constants');
 
-const socket = io(`ws://${window.location.host}`);
+const socketProtocol = (window.location.protocol.includes('https')) ? 'wss' : 'ws';
+const socket = io(`${socketProtocol}://${window.location.host}`,{ reconnection: false });
 
 // Promise => README
 const connectedPromise = new Promise(resolve => {
