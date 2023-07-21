@@ -101,7 +101,7 @@ function interpolateObject(object1, object2, ratio) {
     } else if(key === 'x' || key === 'y' || key === 'hp'){
       interpolated[key] = object1[key] + (object2[key] - object1[key]) * ratio;
     }else{
-      interpolated[key] = object1[key];
+      interpolated[key] = object2[key];
     }
   });
   return interpolated;

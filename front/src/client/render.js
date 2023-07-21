@@ -48,6 +48,10 @@ function render() {
     //bullets.forEach(renderBullet.bind(null, me));
     meteors.forEach(renderMeteor.bind(null, me));
     // 모든 플레이어 그리기
+    for(let i = me.shields ; i > 0 ; i--){
+      console.log(i);
+      renderShields(me,me, i);
+    }
     renderPlayer(me, me);
     others.forEach(renderPlayer.bind(null, me));
   }
@@ -112,6 +116,25 @@ function renderBackground(x, y) {
       context.stroke();
     }
   }
+}
+
+function renderShields(me,player, i){
+  const { x, y ,direction} = player;
+  const canvasX = canvas.width / 2 + x - me.x;
+  const canvasY = canvas.height / 2 + y - me.y;
+  let ssize = 50;
+  context.save();
+  context.translate(canvasX, canvasY);
+  context.rotate(direction);
+  context.drawImage(
+    getAsset('shield.png'),
+    -PLAYER_RADIUS - (ssize/2*i),
+    -PLAYER_RADIUS - (ssize/2*i),
+    PLAYER_RADIUS * 2 + (ssize*i),
+    PLAYER_RADIUS * 2 + (ssize*i),
+  );
+  context.restore();
+
 }
 
 // 주어진 좌표에서 배를 그리는 함수

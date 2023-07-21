@@ -10,6 +10,7 @@ class Player extends ObjectClass {
     this.fireCooldown = 0;
     this.score = 0;
     this.keycodes = {};
+    this.shields = 5;
   }
 
   
@@ -69,6 +70,7 @@ class Player extends ObjectClass {
       ...(super.serializeForUpdate()),
       username : this.username,
       direction: this.direction,
+      shields : this.shields,
       hp: this.hp,
     };
   }
