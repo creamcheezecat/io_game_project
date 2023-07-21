@@ -22,8 +22,8 @@ class Player extends ObjectClass {
     // this.score += dt * Constants.SCORE_PER_SECOND;
 
     // Make sure the player stays in bounds
-    this.x = Math.max(0, Math.min(Constants.MAP_SIZE, this.x));
-    this.y = Math.max(0, Math.min(Constants.MAP_SIZE, this.y));
+    this.x = Math.max(-1, Math.min(Constants.MAP_SIZE, this.x));
+    this.y = Math.max(-1, Math.min(Constants.MAP_SIZE, this.y));
 
     // Fire a bullet, if needed
     // this.fireCooldown -= dt;
@@ -31,24 +31,28 @@ class Player extends ObjectClass {
     //   this.fireCooldown += Constants.PLAYER_FIRE_COOLDOWN;
     //   return new Bullet(this.id, this.x, this.y, this.direction);
     // }
-
+    let q = 0;
+    let r = 0;
     if (this.keycodes['87']) {
-      super.setDirection(Math.atan2(0, this.y - Constants.PLAYER_SPEED));
+      r += 1;
       this.y -= Constants.PLAYER_SPEED / 40;
     }// S
     if (this.keycodes['83']) {
-      super.setDirection(Math.atan2(0, this.y + Constants.PLAYER_SPEED - Constants.MAP_SIZE));
+      r -= 1;
       this.y += Constants.PLAYER_SPEED / 40;
     }// A
     if (this.keycodes['68']) {
-      super.setDirection(Math.atan2(this.x + Constants.PLAYER_SPEED, 0));
+      q += 1
+      //this.tempdir += Math.atan2(1, 0);
       this.x += Constants.PLAYER_SPEED / 40;
     }// D
     if (this.keycodes['65']) {
-      super.setDirection(Math.atan2(this.x - Constants.PLAYER_SPEED - Constants.MAP_SIZE, 0));
+      q -= 1
+      //this.tempdir += Math.atan2(-1, 0);
       this.x -= Constants.PLAYER_SPEED / 40;
     }// W
-
+    //this.tempdir = this.tempdir === 0 ? super.getDirection() : this.tempdir ;
+    super.setDirection(Math.atan2(q, r));
     return null;
   }
 
@@ -63,6 +67,7 @@ class Player extends ObjectClass {
   serializeForUpdate() {
     return {
       ...(super.serializeForUpdate()),
+      username : this.username,
       direction: this.direction,
       hp: this.hp,
     };

@@ -33,7 +33,7 @@ let animationFrameRequestId;
 
 // 게임의 현재 상태를 그리는 함수
 function render() {
-  const { me, others, bullets } = getCurrentState();
+  const { me, others, bullets,meteors } = getCurrentState();
   if (me) {
 
     // 배경 그리기
@@ -45,8 +45,8 @@ function render() {
     context.strokeRect(canvas.width / 2 - me.x, canvas.height / 2 - me.y, MAP_SIZE, MAP_SIZE);
 
     // 모든 총알 그리기
-    bullets.forEach(renderBullet.bind(null, me));
-
+    //bullets.forEach(renderBullet.bind(null, me));
+    meteors.forEach(renderMeteor.bind(null, me));
     // 모든 플레이어 그리기
     renderPlayer(me, me);
     others.forEach(renderPlayer.bind(null, me));
@@ -116,7 +116,7 @@ function renderBackground(x, y) {
 
 // 주어진 좌표에서 배를 그리는 함수
 function renderPlayer(me, player) {
-  const { x, y, direction } = player;
+  const { x, y, direction ,username } = player;
   const canvasX = canvas.width / 2 + x - me.x;
   const canvasY = canvas.height / 2 + y - me.y;
 
@@ -125,7 +125,7 @@ function renderPlayer(me, player) {
   context.translate(canvasX, canvasY);
   context.rotate(direction);
   context.drawImage(
-    getAsset('circle.png'),
+    getAsset('ship.svg'),
     -PLAYER_RADIUS,
     -PLAYER_RADIUS,
     PLAYER_RADIUS * 2,
@@ -133,21 +133,10 @@ function renderPlayer(me, player) {
   );
   context.restore();
 
-  // // 체력 바 그리기
-  // context.fillStyle = 'white';
-  // context.fillRect(
-  //   canvasX - PLAYER_RADIUS,
-  //   canvasY + PLAYER_RADIUS + 8,
-  //   PLAYER_RADIUS * 2,
-  //   2,
-  // );
-  // context.fillStyle = 'red';
-  // context.fillRect(
-  //   canvasX - PLAYER_RADIUS + PLAYER_RADIUS * 2 * player.hp / PLAYER_MAX_HP,
-  //   canvasY + PLAYER_RADIUS + 8,
-  //   PLAYER_RADIUS * 2 * (1 - player.hp / PLAYER_MAX_HP),
-  //   2,
-  // );
+  context.fillStyle = 'white'; // 텍스트 색상 설정
+  context.font = '20px Arial'; // 텍스트 폰트 설정
+  context.textAlign = 'center'; // 텍스트 정렬 설정
+  context.fillText(username, canvasX, canvasY + PLAYER_RADIUS + 20); // 텍스트 그리기
 }
 
 // 총알을 그리는 함수
@@ -160,6 +149,31 @@ function renderBullet(me, bullet) {
     BULLET_RADIUS * 2,
     BULLET_RADIUS * 2,
   );
+}
+
+function renderMeteor(old_pos, new_pos) {
+  const { x, y, direction,word } = new_pos;
+  const canvasX = canvas.width / 2 + x - old_pos.x;
+  const canvasY = canvas.height / 2 + y - old_pos.y;
+
+  // 배 그리기
+  context.save();
+  context.translate(canvasX, canvasY);
+  context.rotate(direction);
+  context.drawImage(
+      getAsset('circle.png'),
+      -PLAYER_RADIUS,
+      -PLAYER_RADIUS,
+      PLAYER_RADIUS * 2,
+      PLAYER_RADIUS * 2,
+  );
+  context.restore();
+
+
+  context.fillStyle = 'white'; // 텍스트 색상 설정
+  context.font = '20px Arial'; // 텍스트 폰트 설정
+  context.textAlign = 'center'; // 텍스트 정렬 설정
+  context.fillText(word, canvasX, canvasY + PLAYER_RADIUS + 20); // 텍스트 그리기
 }
 
 // 메인 메뉴를 그리는 함수

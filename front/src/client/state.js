@@ -55,7 +55,7 @@ function getBaseUpdate() {
   }
   return -1;
 }
-
+/////////////////////////////////////////////////////////
 // 현재 상태 반환 { me, others, bullets }
 export function getCurrentState() {
   if (!firstServerTimestamp) {
@@ -77,8 +77,15 @@ export function getCurrentState() {
       me: interpolateObject(baseUpdate.me, next.me, ratio),
       others: interpolateObjectArray(baseUpdate.others, next.others, ratio),
       bullets: interpolateObjectArray(baseUpdate.bullets, next.bullets, ratio),
+      meteors:interpolateObjectArray(baseUpdate.meteors, next.meteors, ratio),
     };
   }
+}
+//////////////////////////////////////////////////////////
+
+// 객체 배열을 보간하는 함수
+function interpolateObjectArray(objects1, objects2, ratio) {
+  return objects1.map(o => interpolateObject(o, objects2.find(o2 => o.id === o2.id), ratio));
 }
 
 // 두 객체 사이를 보간하는 함수
@@ -91,16 +98,13 @@ function interpolateObject(object1, object2, ratio) {
   Object.keys(object1).forEach(key => {
     if (key === 'direction') {
       interpolated[key] = interpolateDirection(object1[key], object2[key], ratio);
-    } else {
+    } else if(key === 'x' || key === 'y' || key === 'hp'){
       interpolated[key] = object1[key] + (object2[key] - object1[key]) * ratio;
+    }else{
+      interpolated[key] = object1[key];
     }
   });
   return interpolated;
-}
-
-// 객체 배열을 보간하는 함수
-function interpolateObjectArray(objects1, objects2, ratio) {
-  return objects1.map(o => interpolateObject(o, objects2.find(o2 => o.id === o2.id), ratio));
 }
 
 // Determines the best way to rotate (cw or ccw) when interpolating a direction.

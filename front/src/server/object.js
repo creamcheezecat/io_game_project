@@ -22,6 +22,10 @@ class Object {
     this.direction = dir;
   }
 
+  getDirection(){
+    return this.direction;
+  }
+
   serializeForUpdate() {
     return {
       id: this.id,

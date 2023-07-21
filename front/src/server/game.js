@@ -1,12 +1,16 @@
 const Constants = require('../shared/constants');
 const Player = require('./player');
-const applyCollisions = require('./collisions');
+const Meteor = require('./meteor');
+const bulletCollisions = require('./bulletcollisions');
+const meteorCollisions = require('./meteorcollisions');
 
 class Game {
   constructor() {
     this.sockets = {};
     this.players = {};
     this.bullets = [];
+    this.meteors = [];
+    this.meteorscount = 0;
     this.lastUpdateTime = Date.now();
     this.shouldSendUpdate = false;
     setInterval(this.update.bind(this), 1000 / 60);
@@ -39,6 +43,11 @@ class Game {
   }
 
   update() {
+    while(this.meteorscount < 10){
+      console.log(`단어${this.meteorscount} 운석 소환`);
+      this.meteors.push(new Meteor(this.meteorscount,`단어${this.meteorscount}`,Constants.MAP_SIZE * (0.25 + Math.random() * 0.5),Constants.MAP_SIZE * (0.25 + Math.random() * 0.5)))
+      this.meteorscount = this.meteors.length;
+    }
     // Calculate time elapsed
     const now = Date.now();
     const dt = (now - this.lastUpdateTime) / 1000;
@@ -57,6 +66,7 @@ class Game {
     // Update each player
     Object.keys(this.sockets).forEach(playerID => {
       const player = this.players[playerID];
+      
       const newBullet = player.update(dt);
       if (newBullet) {
         this.bullets.push(newBullet);
@@ -64,7 +74,7 @@ class Game {
     });
 
     // Apply collisions, give players score for hitting bullets
-    const destroyedBullets = applyCollisions(Object.values(this.players), this.bullets);
+    const destroyedBullets = bulletCollisions(Object.values(this.players), this.bullets);
     destroyedBullets.forEach(b => {
       if (this.players[b.parentID]) {
         this.players[b.parentID].onDealtDamage();
@@ -81,6 +91,20 @@ class Game {
         this.removePlayer(socket);
       }
     });
+
+    // 맵 끝에 도착하면 삭제
+    const meteorsToRemove = [];
+    this.meteors.forEach(meteor => {
+      if (meteor.update(dt)) {
+        // 맵끝에 도착했으니까 삭제
+        meteorsToRemove.push(meteor);
+      }
+    });
+    this.meteors = this.meteors.filter(meteor => !meteorsToRemove.includes(meteor));
+
+    // 플레이어랑 부딪히면 삭제
+    const destroyedMeteors = meteorCollisions(Object.values(this.players), this.meteors);
+    this.meteors = this.meteors.filter(meteor => !destroyedMeteors.includes(meteor));
 
     // Send a game update to each player every other time
     if (this.shouldSendUpdate) {
@@ -111,11 +135,16 @@ class Game {
       b => b.distanceTo(player) <= Constants.MAP_SIZE / 2,
     );
 
+    const nearbyMeteors = this.meteors.filter(
+      m => m.distanceTo(player) <= Constants.MAP_SIZE / 2,
+    );
+
     return {
       t: Date.now(),
       me: player.serializeForUpdate(),
       others: nearbyPlayers.map(p => p.serializeForUpdate()),
       bullets: nearbyBullets.map(b => b.serializeForUpdate()),
+      meteors:nearbyMeteors.map(m => m.serializeForUpdate()),
       leaderboard,
     };
   }
