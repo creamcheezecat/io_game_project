@@ -48,10 +48,7 @@ function render() {
     //bullets.forEach(renderBullet.bind(null, me));
     meteors.forEach(renderMeteor.bind(null, me));
     // 모든 플레이어 그리기
-    for(let i = me.shields ; i > 0 ; i--){
-      console.log(i);
-      renderShields(me,me, i);
-    }
+    
     renderPlayer(me, me);
     others.forEach(renderPlayer.bind(null, me));
   }
@@ -63,24 +60,7 @@ function render() {
 
 // 배경을 그리는 역할, 그라데이션
 function renderBackground(x, y) {
-  // const backgroundX = MAP_SIZE / 2 - x + canvas.width / 2;
-  // const backgroundY = MAP_SIZE / 2 - y + canvas.height / 2;
 
-  // // const backgroundX = MAP_SIZE;
-  // // const backgroundY = MAP_SIZE;
-
-  // const backgroundGradient = context.createRadialGradient(
-  //   backgroundX,
-  //   backgroundY,
-  //   MAP_SIZE / 10,
-  //   backgroundX,
-  //   backgroundY,
-  //   MAP_SIZE / 2,
-  // );
-  // backgroundGradient.addColorStop(0, 'gray');
-  // backgroundGradient.addColorStop(1, 'black');
-  // context.fillStyle = backgroundGradient;
-  // context.fillRect(0, 0, canvas.width, canvas.height);
 
   // Draw black background
   context.fillStyle = 'black';
@@ -139,7 +119,7 @@ function renderShields(me,player, i){
 
 // 주어진 좌표에서 배를 그리는 함수
 function renderPlayer(me, player) {
-  const { x, y, direction ,username } = player;
+  const { x, y, direction ,username ,shields} = player;
   const canvasX = canvas.width / 2 + x - me.x;
   const canvasY = canvas.height / 2 + y - me.y;
 
@@ -160,6 +140,11 @@ function renderPlayer(me, player) {
   context.font = '20px Arial'; // 텍스트 폰트 설정
   context.textAlign = 'center'; // 텍스트 정렬 설정
   context.fillText(username, canvasX, canvasY + PLAYER_RADIUS + 20); // 텍스트 그리기
+
+  for(let i = me.shields ; i > 0 ; i--){
+    console.log(i);
+    renderShields(me,player, i);
+  }
 }
 
 // 총알을 그리는 함수
